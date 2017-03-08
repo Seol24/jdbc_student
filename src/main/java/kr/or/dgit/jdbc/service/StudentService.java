@@ -2,8 +2,11 @@ package kr.or.dgit.jdbc.service;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import kr.or.dgit.jdbc.dao.StudentDao;
@@ -59,7 +62,27 @@ public class StudentService implements StudentDao{
 
 	@Override
 	public List<Student> findAllStudent() {
-		return null;
+		Connection connection = ConnectionFactory.getInstance();
+		List<Student> lists = new ArrayList<>();
+		String sql ="select stud id, name, email, dob from student";
+		
+		try(PreparedStatement pstmt = connection.prepareStatement(sql);
+				ResultSet rs = pstmt.executeQuery()){
+			while(rs.next()){
+				lists.add(getStudent(rs));
+			}			
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		return lists;
+	}
+	
+	private Student getStudent(ResultSet rs) throws SQLException {
+		int studId = rs.getInt("stud_id");
+		String name = rs.getString("name");
+		String email = rs.getString("email");
+		Date dob = rs.getDate("dob");
+		return new Student(studId, name, email, dob);
 	}
 
 }
