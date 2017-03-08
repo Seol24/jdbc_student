@@ -1,6 +1,6 @@
 package kr.or.dgit.jdbc.dto;
 
-import java.sql.Date;
+import java.util.Date;
 
 public class Student {
 	private int studId;
@@ -10,6 +10,20 @@ public class Student {
 	
 	
 	
+	public Student() {}
+
+
+
+	public Student(int studId, String name, String email, Date dob) {
+		super();
+		this.studId = studId;
+		this.name = name;
+		this.email = email;
+		this.dob = dob;
+	}
+
+
+
 	public int getStudId() {
 		return studId;
 	}
