@@ -2,6 +2,9 @@ apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'application'
 
+tasks.withType(JavaCompile){
+	options.encoding = 'UTF-8'
+}
 
 repositories {
     jcenter()
@@ -15,3 +18,27 @@ dependencies {
 	testCompile 'junit:junit:4.12'
 }
 
+version  =1.0
+mainClassName = 'kr.or.dgit_gradle_project.StudentUI'
+
+jar {
+	baseName = 'GradleTest'
+	appendix = 'bin'
+	manifest{
+		attributes 'Title':baseName, 'Version' :version, 'Main-Class' : mainClassName
+	}
+	// archiveName 'StudentManagement.jar' //baseName, appendix 속성이 무시
+	dependsOn configurations.runtime //실행 가능한 jar파일 생성
+}
+
+task myJavadocs(type: Javadoc){
+	source = sourceSets.main.allJava
+}
+
+uploadArchives{
+	repositories {
+		flatDir{
+			dirs 'repos'
+		}	
+	}
+}
